@@ -1,0 +1,19 @@
+{
+    "name": "constellation/mynest",
+    "description": "raspberry pi smart temperature controller",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Alan Buss",
+            "email": "al@constellationwebservices.com"
+        }
+    ],
+    "require": {
+        "motivatedsloth/noaa": "dev-master",
+        "ronanguilloux/php-gpio": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {"constellation\\mynest\\": "mynest/"}
+    }
+}

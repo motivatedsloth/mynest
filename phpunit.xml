@@ -1,0 +1,7 @@
+<phpunit bootstrap="mynest/autoload.php">
+  <testsuites>
+    <testsuite name="mynest">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
