@@ -50,7 +50,7 @@ class Day {
    * @param DateTime $date optional time to find
    * @return array for given day
    */
-  public function get(){
+  public function get(DateTime $date = null){
     return $this->schedule;
   }
 

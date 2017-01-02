@@ -10,6 +10,8 @@
 namespace constellation\mynest\Schedules;
 use constellation\mynest\Schedules\Day;
 use InvalidArgumentException;
+use RuntimeException;
+use DateTime;
 
 /**
  * set a schedule
@@ -43,6 +45,15 @@ class Schedule {
   );
 
   /**
+   * what days are a weekend
+   * @var array $weekend
+   */
+  protected $weekend = array(
+    "sat", 
+    "sun"
+  );
+
+  /**
    * Our schedule, an array of mynest\Schedules\Day objects
    * @var array $days 
    */
@@ -59,17 +70,39 @@ class Schedule {
    * add a time and value to a day
    * @param string $day day term we are adding to
    * @param string|number $time time term or time
-   * @param mixed $value
+   * @param mixed $value optional value
    */
-  public function add($day, $time, $value){
+  public function add($day, $time, $value = null){
     $this->day($day)->set($time, $value);
     return $this;
   }
 
   /**
+   * get the value for provided DateTime
+   * @param DateTime $date
+   * @throws RuntimeException if unable to find val
+   */
+  public function val(DateTime $date){
+    $dow = strtolower($date->format("D"));
+    $isWeekend = (array_search($dow, $this->weekend) !== false);
+    switch (true){
+    case (isset($this->days[$dow])):
+      return $this->days[$dow]->val($date);
+    case ($isWeekend && isset($this->days["weekend"])):
+      return $this->days["weekend"]->val($date);
+    case (!$isWeekend && isset($this->days["weekday"])):
+      return $this->days["weekday"]->val($date);
+    case (isset($this->day["all"])):
+      return $this->days["all"]->val($date);
+    }
+    throw new RuntimeException("No value set for this Schedule");
+  }
+
+  /**
    * get a day
    * @param string $day
-   * @return $day
+   * @throws InvalidArgumentException on an invalid day
+   * @return Day $day
    */
   protected function day($day){
     if(!isset($this->days[$day]) && $term = $this->validTerm($day)){
@@ -93,4 +126,4 @@ class Schedule {
     }
     return false;
   }
-}
+}//class
