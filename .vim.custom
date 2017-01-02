@@ -1,0 +1,5 @@
+autocmd BufWritePost mynest/* make refresh
+set tags=.tags.mynest,.tags.vendor
+set expandtab
+set shiftwidth=2
+set softtabstop=2
