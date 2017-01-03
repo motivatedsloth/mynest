@@ -26,13 +26,6 @@ class Schedule {
     "all",
     "weekday",
     "weekend",
-    "sun",
-    "mon",
-    "tue",
-    "wed",
-    "thu",
-    "fri",
-    "sat"
   );
 
   /**
@@ -51,6 +44,16 @@ class Schedule {
   protected $weekend = array(
     "sat", 
     "sun"
+  );
+  /**
+   * what days are weekdays
+   */
+  protected $weekdays = array(
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri"
   );
 
   /**
@@ -83,19 +86,44 @@ class Schedule {
    * @throws RuntimeException if unable to find val
    */
   public function val(DateTime $date){
-    $dow = strtolower($date->format("D"));
-    $isWeekend = (array_search($dow, $this->weekend) !== false);
-    switch (true){
-    case (isset($this->days[$dow])):
-      return $this->days[$dow]->val($date);
-    case ($isWeekend && isset($this->days["weekend"])):
-      return $this->days["weekend"]->val($date);
-    case (!$isWeekend && isset($this->days["weekday"])):
-      return $this->days["weekday"]->val($date);
-    case (isset($this->day["all"])):
+
+    if(isset($this->day["all"])){
       return $this->days["all"]->val($date);
     }
+
+    if(isset($this->days["weekend"]) || isset($this->days["weekday"])){
+      if(!(isset($this->days["weekend"]) && isset($this->days["weekday"]))){
+        throw new RuntimeException("weekend and weekday must both be set", 199);
+      }
+      if(array_search($dow, $this->weekend) !== false){
+        return $this->days["weekend"]->val($date);
+      }else{
+        return $this->days["weekday"]->val($date);
+      }
+    }
+
+    return $this->dayValue($date);
+    
     throw new RuntimeException("No value set for this Schedule");
+  }
+
+  /**
+   * find days value
+   * @param DateTime $date
+   * @throws RuntimeException on failure
+   * @return mixed value
+   */
+  public function dayValue(DateTime $date){
+    $dow = strtolower($date->format("D"));
+    $days = array_reverse(array_merge($this->weekend, $this->weekdays));
+    $days = array_merge(array_splice($days, array_search($dow, $days)), $days);
+    foreach($days as $dow){
+      try{
+        return $this->days[$dow]->val($date);
+      }catch(Exception $e){
+      }
+    }
+    throw new RuntimeException("No Value Found for $date");
   }
 
   /**
@@ -118,7 +146,8 @@ class Schedule {
    * @param string $term
    */
   public function validTerm($term){
-    if(array_search($term, $this->day_terms) !== false){
+    $allTerms = array_merge($this->day_terms, $this->weekend, $this->weekdays);
+    if(array_search($term, $allTerms) !== false){
       return $term;
     }
     if(isset($this->aliases[$term])){

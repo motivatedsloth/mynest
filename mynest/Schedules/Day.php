@@ -8,6 +8,10 @@
  * file that was distributed with this source code.
  */
 namespace constellation\mynest\Schedules;
+use DateTime;
+use Exception;
+use OutOfBoundsException;
+use RuntimeException;
 /**
  * The schedule for a day
  *
@@ -35,10 +39,13 @@ class Day {
    */
   public function set($time, $value = null){
     if(is_null($value)){
-      $this->set("single", $value);
+      return $this->set("single", $time);
     }
-    if($this->validTerm($time)){
+    $tm = $this->validTerm($time);
+    if(is_string($tm)){
       $this->schedule[$time] = $value;
+    }elseif($tm instanceof DateTime){
+      $this->schedule[$tm->format("Hi")] = $value;
     }else{
       throw new InvalidArgumentException("$time is not a valid time term");
     }
@@ -55,6 +62,52 @@ class Day {
   }
 
   /**
+   * get value for given time
+   * @param DateTime $date 
+   * @throws RuntimeException if both day and night are not set
+   * @throws OutOfBoundsException if requested time if before first set
+   * @return mixed value
+   */
+  public function val(DateTime $date){
+    if(isset($this->schedule["single"])){
+      return $this->schedule["single"];
+    }
+
+    //get time as a numeric value
+    $tm = $date->format("Gi");
+
+    //check day/night if set
+    if(isset($this->schedule["day"]) || isset($this->schedule["night"])){
+      if(!(isset($this->schedule['day']) && isset($this->schedule['night']))){
+        throw new RuntimeException("Both day and night must be set", 200);
+      }
+      if($tm < 1800 && $tm > 600){
+        return $this->schedule['day'];
+      }else{
+        return $this->schedule['night'];
+      }
+    }
+
+    //checking times
+    //breakpoints for times
+    $breaks = array_keys($this->schedule);
+    //put them in order
+    sort($breaks);
+    //find our slot
+    for( $cur = reset($breaks); $nxt = next($breaks); ){
+      if($tm < $cur){
+        throw new OutOfBoundsException("Requested schedule before first schedule, check previous day", 220);
+      }
+      if($tm >= $cur && $tm < $nxt){
+        break;
+      }else{
+        $cur = $nxt;
+      }
+    }
+    return $this->schedule[$cur];
+  }
+
+  /**
    * get valid hour terms
    */
   static public function getTerms(){
@@ -63,13 +116,26 @@ class Day {
 
   /**
    * is this a valid term
-   * @param string $term
+   * @param string|int $term
    */
   public function validTerm($term){
-    if(array_search($term, $this->hour_terms) !== false || array_search($term, range(1,24)) !== false){
+    switch (true){
+    case (array_search($term, $this->hour_terms) !== false): //string term
       return $term;
+    case (array_search($term, range(1,24)) !== false): //hour only
+      $term = str_pad($term, 2, "0", STR_PAD_LEFT). "00";
+    case (preg_match("/\d{3,4}/", $term)):
+      $term = str_pad($term, 4, "0", STR_PAD_LEFT);
     }
-    return false;
+    try{
+      $dt = new DateTime($term);
+      if($dt->format("Hi") != $term){
+        $dt = false;
+      }
+    }catch(Exception $e){
+      $dt = false;
+    }
+    return $dt;
   }
 }
 
