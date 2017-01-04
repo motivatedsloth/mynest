@@ -20,6 +20,7 @@ use RuntimeException;
 class Day {
   /**
    * time terms we understand
+   * @var array
    */
   protected $hour_terms = array(
     "day",
@@ -28,16 +29,39 @@ class Day {
   );
 
   /**
+   * don't throw error if before time
+   * @var bool
+   */
+  protected $continuous = false;
+
+  /**
    * current schedule
+   * @var array
    */
   protected $schedule = array();
 
   /**
-   * add a time and value, if value is omitted then $time is used as a "single" value 
-   * @param mixed $time time term, hour, or value
+   * set continuous
+   * @param bool $cont
+   */
+  public function continuous($cont){
+    $this->continuous = $cont;
+  }
+
+  /**
+   * add a time and value, 
+   * if value is omitted and $time is an array then each key=>value pair is added
+   * if value is omitted and $time is not an array then $time is used as a "single" value 
+   * @param mixed $time time term, hour, array(time=>val,...) or value
    * @param mixed $value optional value
    */
   public function set($time, $value = null){
+    if(is_array($time)){
+      foreach($time as $tm=>$val){
+        $this->set($tm, $val);
+      }
+      return $this;
+    }
     if(is_null($value)){
       return $this->set("single", $time);
     }
@@ -95,7 +119,7 @@ class Day {
     sort($breaks);
     //find our slot
     for( $cur = reset($breaks); $nxt = next($breaks); ){
-      if($tm < $cur){
+      if(!$this->continuous && $tm < $cur){
         throw new OutOfBoundsException("Requested schedule before first schedule, check previous day", 220);
       }
       if($tm >= $cur && $tm < $nxt){

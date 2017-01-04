@@ -11,6 +11,7 @@ namespace constellation\mynest\Schedules;
 use constellation\mynest\Schedules\Day;
 use InvalidArgumentException;
 use RuntimeException;
+use OutOfBoundsException;
 use DateTime;
 
 /**
@@ -62,6 +63,19 @@ class Schedule {
    */
   protected $days;
 
+  public function __construct($schedule = null){
+    if(is_array($schedule)){
+      reset($schedule);
+      if($this->validTerm(key($schedule))){
+        foreach($schedule as $term=>$val){
+          $this->set($term, $val);
+        }
+      }else{
+        $this->set("all", $schedule);
+      }
+    }
+  }
+  
   /**
    * get valid day terms
    */
@@ -72,10 +86,10 @@ class Schedule {
   /**
    * add a time and value to a day
    * @param string $day day term we are adding to
-   * @param string|number $time time term or time
+   * @param string|number|array $time time term or time or array(time->value, ...)
    * @param mixed $value optional value
    */
-  public function add($day, $time, $value = null){
+  public function set($day, $time, $value = null){
     $this->day($day)->set($time, $value);
     return $this;
   }
@@ -87,7 +101,7 @@ class Schedule {
    */
   public function val(DateTime $date){
 
-    if(isset($this->day["all"])){
+    if(isset($this->days["all"])){
       return $this->days["all"]->val($date);
     }
 
@@ -95,7 +109,7 @@ class Schedule {
       if(!(isset($this->days["weekend"]) && isset($this->days["weekday"]))){
         throw new RuntimeException("weekend and weekday must both be set", 199);
       }
-      if(array_search($dow, $this->weekend) !== false){
+      if(array_search(strtolower($date->format("D")), $this->weekend) !== false){
         return $this->days["weekend"]->val($date);
       }else{
         return $this->days["weekday"]->val($date);
@@ -119,8 +133,9 @@ class Schedule {
     $days = array_merge(array_splice($days, array_search($dow, $days)), $days);
     foreach($days as $dow){
       try{
-        return $this->days[$dow]->val($date);
-      }catch(Exception $e){
+        $val = $this->days[$dow]->val($date);
+        return $val;
+      }catch(OutOfBoundsException $e){
       }
     }
     throw new RuntimeException("No Value Found for $date");
@@ -133,12 +148,17 @@ class Schedule {
    * @return Day $day
    */
   protected function day($day){
-    if(!isset($this->days[$day]) && $term = $this->validTerm($day)){
-      $this->days[$term] = new Day;
-    }else{
+    if(!$term = $this->validTerm($day)){
       throw new InvalidArgumentException("$day is not a valid day term");
     }
-    return $this->days[$day];
+    if(!isset($this->days[$term])){
+      $this->days[$term] = new Day;
+      if($term == "all"){
+        $this->days["all"]->continuous(true);
+      }
+    }
+
+    return $this->days[$term];
   }
 
   /**
