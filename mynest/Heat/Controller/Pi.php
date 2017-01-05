@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 namespace constellation\mynest\Heat\Controller;
+use constellation\mynest\Heat\Zone\Zone;
 use constellation\mynest\Heat\Controller\Pi\Gpio;
 
 /**
@@ -32,8 +33,8 @@ class Pi implements Controller {
   /**
    * @param Gpio $gpio
    */
-  public function __construct(Gpio $gpio){
-    $this->gpio = $gpio;
+  public function __construct(){
+    $this->gpio = new Gpio;
   }
   /**
    * make sure zone is exported
@@ -63,7 +64,7 @@ class Pi implements Controller {
    */
   public function run(Zone $zone){
     $pin = $this->mapping[$zone];
-    $this->init($pin)->output($pin, 1);
+   $this->init($pin)->output($pin, 1);
     return $this;
   }
 

@@ -55,6 +55,8 @@ class Config {
     $this->config = Yaml::parse(file_get_contents($this->file));
   }
   public function controller(){
+    $ct = $this->controllers[$this->config['controller']];
+    return new $ct;
   }
 
 }
