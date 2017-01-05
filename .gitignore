@@ -1,3 +1,5 @@
 /vendor/
 *.swp
 .tags.*
+/config/*
+!config/.gitkeep
