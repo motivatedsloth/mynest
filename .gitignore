@@ -1,5 +1,4 @@
 /vendor/
 *.swp
 .tags.*
-/config/*
-!config/.gitkeep
+/config/cycles.yml
