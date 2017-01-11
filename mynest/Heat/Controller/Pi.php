@@ -53,7 +53,7 @@ class Pi implements Controller {
    * @return Pi $this
    */
   public function stop(Zone $zone){
-    $pin = $this->mapping[$zone];
+    $pin = $this->mapping[$zone->getZone()];
     $this->init($pin)->output($pin, 0);
     return $this;
   }
@@ -63,7 +63,7 @@ class Pi implements Controller {
    * @return Pi $this
    */
   public function run(Zone $zone){
-    $pin = $this->mapping[$zone];
+    $pin = $this->mapping[$zone->getZone()];
    $this->init($pin)->output($pin, 1);
     return $this;
   }
@@ -74,7 +74,7 @@ class Pi implements Controller {
    * @return int 0 or 1
    */
   public function status(Zone $zone){
-    $pin = $this->mapping[$zone];
+    $pin = $this->mapping[$zone->getZone()];
     return $this->init($pin)->status($pin);
   }
 }

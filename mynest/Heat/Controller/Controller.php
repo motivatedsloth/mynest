@@ -16,11 +16,13 @@ use constellation\mynest\Heat\Zone\Zone;
  * @author Alan Buss <al@constellationwebservices.com>
  */
 interface Controller {
+
   /**
    * system on
    * @param Zone $zone
    */
   public function run(Zone $zone);
+
   /**
    * system off
    * @param Zone $zone

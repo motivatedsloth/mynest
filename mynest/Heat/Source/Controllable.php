@@ -16,7 +16,7 @@ namespace constellation\mynest\Heat\Source;
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-abstract class Controllable{
+class Controllable{
 
   /**
    * @var int startup time in seconds
@@ -47,7 +47,7 @@ abstract class Controllable{
    * @param int seconds to start up unit
    * @return Controllable $this
    */
-  public function setStartUp(int $startup){
+  public function setStartUp($startup){
     $this->startup = $startup;
     return $this;
   }
@@ -65,7 +65,7 @@ abstract class Controllable{
    * @param int cycle time
    * @return Controllable $this
    */
-  public function setCycle(int $cycle){
+  public function setCycle($cycle){
     $this->cycle = $cycle;
     return $this;
   }
@@ -83,7 +83,7 @@ abstract class Controllable{
    * @param int degrees
    * @return Controllable $this
    */
-  public function setRise(int $rise){
+  public function setRise($rise){
     $this->rise = $rise;
     return $this;
   }
