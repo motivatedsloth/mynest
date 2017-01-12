@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/motivatedsloth/noaa.git",
-                "reference": "1e81004b793bcff9ff8b49b8839d2214233b364a"
+                "reference": "5269d68aab98153847b5ec51e0f48682cabd7128"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/motivatedsloth/noaa/zipball/1e81004b793bcff9ff8b49b8839d2214233b364a",
-                "reference": "1e81004b793bcff9ff8b49b8839d2214233b364a",
+                "url": "https://api.github.com/repos/motivatedsloth/noaa/zipball/5269d68aab98153847b5ec51e0f48682cabd7128",
+                "reference": "5269d68aab98153847b5ec51e0f48682cabd7128",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 "noaa",
                 "weather"
             ],
-            "time": "2016-12-26 03:55:10"
+            "time": "2017-01-12 18:59:09"
         },
         {
             "name": "ronanguilloux/php-gpio",

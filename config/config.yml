@@ -1,8 +1,12 @@
-controller: pi
+controller: constellation\mynest\Heat\Controller\Pi
+cache: cache
+point:
+  lat: 43.43
+  lon: -90.80
 zones:
   -
     zone: 1
-    source: { startup: 30, cycle: 60, rise: 50 }
+    source: { startup: 30, cycle: 60, rise: 50, offset: 180 }
     schedule: { all: { 8: 65, 22: 60 } }
 sources:
   woodstove: {all: {8: 30, 22: 15}} 

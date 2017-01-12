@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace constellation\mynest\Cycles;
+namespace constellation\mynest\Heat\Cycles;
 use constellation\mynest\Heat\Zones\Zone;
-use constellation\mynest\Cycles\Cycle;
+use constellation\mynest\Heat\Cycles\Cycle;
 
 /**
  * manage cycles for all zones

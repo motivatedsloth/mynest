@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 use PHPUnit\Framework\TestCase;
-use constellation\mynest\Cycles\Cycle;
+use constellation\mynest\Heat\Cycles\Cycle;
 
 /**
  * test class for Cycle object

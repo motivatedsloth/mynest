@@ -10,6 +10,7 @@
  */
 namespace constellation\mynest;
 use constellation\mynest\Config;
+use configuration\mynest\Heat\Cycles\Storage;
 
 /**
  * main nest class
@@ -32,6 +33,22 @@ class Nest {
   }
 
   public function run(){
+  }
+
+  protected function cycles(){
+    $storage = new Storage;
+    $cycles = $storage->open();
+    $updated = false;
+    foreach($config->zones() as $zone){
+      if(!$cycles->get($zone)){
+        $cycles->set($zone, $this->createCycle($zone));
+        $updated = true;
+      }
+    }
+    if($updated){
+      $storage->save($cycles);
+    }
+    return $cycles;
   }
 }
 

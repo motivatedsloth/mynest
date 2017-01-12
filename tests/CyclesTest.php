@@ -9,8 +9,8 @@
  */
 use PHPUnit\Framework\TestCase;
 use constellation\mynest\Config;
-use constellation\mynest\Cycles\Cycles;
-use constellation\mynest\Cycles\Cycle;
+use constellation\mynest\Heat\Cycles\Cycles;
+use constellation\mynest\Heat\Cycles\Cycle;
 use constellation\mynest\Heat\Zones\Zone;
 
 /**

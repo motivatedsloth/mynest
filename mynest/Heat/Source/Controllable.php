@@ -34,12 +34,20 @@ class Controllable{
   protected $rise;
 
   /**
+   * @var int offset in minutes
+   */
+  protected $offset = 0;
+
+  /**
    * @param array array('startup'=>30, 'cycle'=>60, 'rise'=>50)
    */
   public function __construct(array $props){
     $this->setStartUp($props['startup']);
     $this->setCycle($props['cycle']);
     $this->setRise($props['rise']);
+    if(isset($props['offset'])){
+      $this->offset = $props['offset'];
+    }
   }
 
   /**
@@ -94,6 +102,36 @@ class Controllable{
    */
   public function getRise(){
     return $this->rise;
+  }
+
+  /**
+   * set offset
+   * @param int minutes
+   * @return Controllable $this
+   */
+  public function setOffset($offset){
+    $this->offset = $offset;
+    return $this;
+  }
+
+  /**
+   * minutes of offset
+   * @return int minutes
+   */
+  public function getOffset(){
+    return $this->offset;
+  }
+
+  /**
+   * array to save and recreate
+   */
+  public function toArray(){
+    return array(
+      "rise"=>$this->rise,
+      "cycle"=>$this->cycle,
+      "offset"=>$this->offset,
+      "startup"=>$this->startup
+    );
   }
 }
 
