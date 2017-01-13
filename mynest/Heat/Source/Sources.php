@@ -7,21 +7,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace constellation\mynest\Heat\Zones;
-use constellation\mynest\Heat\Zones\Zone;
+namespace constellation\mynest\Heat\Source;
 
 /**
- * manage multiple zones
+ * manage multiple sources
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class Zones {
+class Sources {
 
   /**
-   * our zone objects
+   * our source objects
    * @var array
    */
-  protected $zones;
+  protected $sources;
 
   /**
    * heat sources
@@ -33,38 +32,31 @@ class Zones {
   );
 
   /**
-   * @param array to configure zones
+   * @param array to configure sources
    */
-  public function __construct(array $zones = array()){
-    foreach($zones as $zone){
-      $this->zones[$zone['zone']] = new Zone($zone);
+  public function __construct(array $sources = array()){
+    foreach($sources as $type=>$source){
+      $cls = $this->heatSources[$type];
+      $this->set(new $cls($source));
     }
   }
 
   /**
-   * set a zone
-   * @param Zone $zone
-   * @return Zones
+   * set a source
+   * @param HeatSource $source
+   * @return Sources
    */
-  public function set(Zone $zone){
-    $this->zones[$zone->getZone()] = $zone;
+  public function set(HeatSource $source){
+    $this->sources[] = $source;
     return $this;
   }
 
   /**
-   * get a Zone or array of Zone objects
-   * @param int $num optional zone number
-   * @return Zone|array of Zone objects
-   * @throws Exception if zone does not exist
+   * get array of HeatSource objects
+   * @return array of HeatSource objects
    */
-  public function get($num = null){
-    if(is_null($num)){
-      return $this->zones;
-    }
-    if(!isset($this->zones[$num])){
-      throw new Exception("Zone number $num does not exist");
-    }
-    return $this->zones[$num];
+  public function get(){
+      return $this->sources;
   }
 
   /**
@@ -73,8 +65,8 @@ class Zones {
    */
   public function toArray(){
     $ret = array();
-    foreach($this->zones as $num=>$zone){
-      $ret[$num] = $zone->toArray();
+    foreach($this->sources as $source){
+      $ret[] = $source->toArray();
     }
     return $ret;
   }

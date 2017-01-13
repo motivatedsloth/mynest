@@ -17,7 +17,6 @@ use noaa\Observation;
 
 use constellation\mynest\Config;
 
-use DateInterval;
 use DateTime;
 
 /**
@@ -60,15 +59,13 @@ class Weather {
    * get weather for specified interval, if no interval is provided get current
    * @return ForecastPeriod|Observation
    */
-  static public function weather(DateInterval $date = null){
+  static public function weather(DateTime $date = null){
     if(is_null($date)){
       return self::noaa()->getObservations()[0];
     }else{
-      $time = new DateTime;
-      $time->add($date);
       $forecasts = self::noaa()->getHourlyForecast();
       foreach($forecasts as $forecast){
-        if($forecast->getStart() < $time && $forecast->getEnd() > $time){
+        if($forecast->getStart() < $date && $forecast->getEnd() > $date){
           return $forecast;
         }
       }

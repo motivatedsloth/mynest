@@ -19,7 +19,7 @@ namespace constellation\mynest\Heat\Source;
 class Controllable{
 
   /**
-   * @var int startup time in seconds
+   * @var int startup time in minutes
    */
   protected $startup;
 
@@ -39,7 +39,7 @@ class Controllable{
   protected $offset = 0;
 
   /**
-   * @param array array('startup'=>30, 'cycle'=>60, 'rise'=>50)
+   * @param array array('startup'=>1, 'cycle'=>60, 'rise'=>50)
    */
   public function __construct(array $props){
     $this->setStartUp($props['startup']);
