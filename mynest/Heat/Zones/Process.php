@@ -35,9 +35,10 @@ class Process {
    */
   static public function cycle(Zone $zone){
     $cycle = new Cycle;
+    $controllable = $zone->getHeatSource();
     $cycle->length(new DateInterval("PT{$controllable->getCycle()}M"));
     $run = self::runtime($zone);
-    $cycle->duration(new DateInterval("PT{$zone}M"));
+    $cycle->duration(new DateInterval("PT{$run}M"));
     return $cycle;
   }
   
@@ -47,7 +48,7 @@ class Process {
    * @param Zone $zone
    * @return int runtime in minutes
    */
-  static public function runtime(Zone $zone){
+  static protected function runtime(Zone $zone){
     $remaining = self::load($zone) - self::sources($zone);
     $controllable = $zone->getHeatSource();
     $percent = $remaining / $controllable->getRise();
@@ -83,7 +84,7 @@ class Process {
    */
   static protected function when(Zone $zone){
     $time = new DateTime;
-    $time->add(new DateInterval("PT{$zone->getOffset()}M"));
+    $time->add(new DateInterval("PT{$zone->getHeatSource()->getOffset()}M"));
     return $time;
   }
 
@@ -97,7 +98,7 @@ class Process {
     $sources = new Sources(Config::get('sources'));
     $rise = 0;
     foreach($sources->get() as $source){
-      $rise += $source->val($date);
+      $rise += $source->rise($date);
     }
     return $rise;
   }
