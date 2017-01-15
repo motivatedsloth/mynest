@@ -15,7 +15,7 @@ use constellation\mynest\Heat\Zones\Zone;
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class Zones {
+class Zones implements Iterator{
 
   /**
    * our zone objects
@@ -68,6 +68,22 @@ class Zones {
       $ret[$num] = $zone->toArray();
     }
     return $ret;
+  }
+
+  function rewind() {
+    return reset($this->zones);
+  }
+  function current() {
+    return current($this->zones);
+  }
+  function key() {
+    return key($this->zones);
+  }
+  function next() {
+    return next($this->zones);
+  }
+  function valid() {
+    return key($this->zones) !== null;
   }
 }
 

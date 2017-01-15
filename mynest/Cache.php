@@ -17,8 +17,18 @@ use constellation\mynest\Heat\Cycles\Cycles;
  * @author Alan Buss <al@constellationwebservices.com>
  */
 class Storage {
+  /**
+   * our yaml file
+   * @var string filename
+   */
   protected $file = "/tmp/mynest/cycles.yml";
 
+  /**
+   * our cycles object
+   * @var Cycles $cycles
+   */
+  protected $cycles;
+  
   public function __construct($file = null){
     if($file){
       $this->file = $file;
@@ -30,7 +40,8 @@ class Storage {
   }
 
   public function open(){
-    return new Cycles(Yaml::parse(file_get_contents($this->file)));
+    $this->cycles = new Cycles(Yaml::parse(file_get_contents($this->file)));
+    return $this->cycles;
   }
 
   public function save(Cycles $cycles){
