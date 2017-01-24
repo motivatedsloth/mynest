@@ -9,7 +9,6 @@
  */
 namespace constellation\mynest\Heat\Controller;
 use constellation\mynest\Heat\Controller\Controller;
-use constellation\mynest\Heat\Zones\Zone;
 
 /**
  * mock controller for testing
@@ -19,14 +18,14 @@ use constellation\mynest\Heat\Zones\Zone;
 class Mock implements Controller {
   protected $zones = array();
 
-  public function run(Zone $zone){
-    $this->zones[$zone->getZone()] = 1;
+  public function run(int $zone){
+    $this->zones[$zone] = 1;
   }
-  public function stop(Zone $zone){
-    $this->zones[$zone->getZone()] = 0;
+  public function stop(int $zone){
+    $this->zones[$zone] = 0;
   }
-  public function status(Zone $zone){
-    return $this->zones[$zone->getZone()];
+  public function status(int $zone){
+    return $this->zones[$zone];
   }
 }
 

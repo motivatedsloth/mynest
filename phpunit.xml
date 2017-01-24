@@ -8,6 +8,7 @@
       <file>tests/CacheTest.php</file>
       <file>tests/CycleTest.php</file>
       <file>tests/CyclesTest.php</file>
+      <file>tests/ControllerTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>
