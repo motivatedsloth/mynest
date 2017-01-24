@@ -9,7 +9,8 @@
  */
 use PHPUnit\Framework\TestCase;
 use constellation\mynest\Config;
-use constellation\mynest\Heat\Cycles\Cycles;
+use constellation\mynest\Cache;
+use constellation\mynest\Heat\Cycles;
 use constellation\mynest\Heat\Cycles\Cycle;
 use constellation\mynest\Heat\Zones\Zone;
 
@@ -20,6 +21,7 @@ use constellation\mynest\Heat\Zones\Zone;
  */
 class CyclesTest extends TestCase {
   public function testCycles(){
+    @unlink('tests/cache/cycles.yml');
     $zn = array(
       "zone"=>1,
       "source"=>array("startup"=>30, "cycle"=>60, "rise"=>50),
@@ -39,15 +41,18 @@ class CyclesTest extends TestCase {
     $arr['start'] = "2017-01-01T10:00";
     $cycle2 = new Cycle($arr);
 
-    $cycles = new Cycles();
+    $cycles = new Cycles(new Cache('tests/cache'));
     $cycles->set($zone1, $cycle1);
     $cycles->set($zone2, $cycle2);
+    $cycles->save();
 
     $this->assertEquals($cycle1, $cycles->get($zone1));
     $this->assertFalse($cycles->get($zone2));
     
     $exp = $cycles->toArray();
     $this->assertEquals($exp[1]['start'], $start->format(\DateTime::ISO8601));
+
+    $this->assertFileExists("tests/cache/cycles.yml");
   }
 }
 

@@ -7,14 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace constellation\mynest\Heat\Source;
+namespace constellation\mynest\Heat;
+use ArrayObject;
+use ArrayIterator;
 
 /**
  * manage multiple sources
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class Sources {
+class Sources extends ArrayObject{
 
   /**
    * our source objects
@@ -27,7 +29,6 @@ class Sources {
    * @var array of heat source class names
    */
   protected $heatSources = array(
-    "controllable"=>"constellation\mynest\Heat\Source\Controllable",
     "woodstove"=>"constellation\mynest\Heat\Source\WoodStove",
   );
 
@@ -69,6 +70,10 @@ class Sources {
       $ret[] = $source->toArray();
     }
     return $ret;
+  }
+
+  public function getIterator(){
+    return new ArrayIterator($this->sources);
   }
 }
 

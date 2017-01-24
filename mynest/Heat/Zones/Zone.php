@@ -45,6 +45,13 @@ class Zone {
     $this->setHeatSource(new Controllable($config['source']));
   }
 
+  public function toArray(){
+    $ret = array();
+    $ret['zone'] = $this->number;
+    $ret['Schedule'] = $this->schedule->toArray();
+    $ret['source'] = $this->heatSource->toArray();
+  }
+
   /**
    * @return int zone number
    */

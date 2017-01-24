@@ -12,7 +12,8 @@
     "require": {
         "motivatedsloth/noaa": "dev-master",
         "ronanguilloux/php-gpio": "^1.0",
-        "symfony/yaml": "^3.2"
+        "symfony/yaml": "^3.2",
+        "php": ">=7.0.0"
     },
     "autoload": {
         "psr-4": {"constellation\\mynest\\": "mynest/"}

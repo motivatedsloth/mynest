@@ -9,10 +9,12 @@
  */
 namespace constellation\mynest;
 use constellation\mynest\Config;
-use constellation\mynest\Heat\Cycles\Storage;
-use constellation\mynest\Heat\Zones\Zones;
+use constellation\mynest\Cache;
+use constellation\mynest\Heat\Zones;
+use constellation\mynest\Heat\Zones\Zone;
+use constellation\mynest\Heat\Cycles\Cycle;
 use constellation\mynest\Heat\Zones\Process;
-use constellation\mynest\Heat\Controller\Controller;
+use constellation\mynest\Heat\Controller;
 
 /**
  * main nest class
@@ -44,47 +46,117 @@ class Nest {
    * @var Controller $controller
    */
   protected $controller;
-  
-  /**
-   * cycle storage
-   * @var Storage $storage
-   */
-  protected $storage;
 
   /**
-   * @param Config $config
+   * @param Config $config optional configuration
    */
-  public function __construct(Config $config){
+  public function __construct(Config $config = null){
+    if(is_null($config)){
+      $config = new Config;
+    }
     $this->config = $config;
-    $controller = $config->get("controller");
-    $this->controller(new $controller);
+    $this->controller(new Controller($config->get("controller")));
     $this->zones = new Zones($config->get("zones"));
-    $storage = new Storage;
-    $this->cycles = $storage->open();
+    $this->cycles = new Cycles(new Cache($config->get("cache")));
   }
 
+  /**
+   * run all zones
+   *
+   * @return Nest $this
+   */
   public function run(){
-    $updated = false;
     foreach($this->zones as $zone){
-      $updated = $this->cycle($zone) || $updated;;
+      $this->cycle($zone);
     }
-    if($updated){
-      $this->storage->save($this->cycles);
-    }
+    $this->apply();
+    return $this;
   }
+
+  /**
+   * apply current cycles status
+   *
+   * @return Nest $this
+   */
+  public function apply(){
+    foreach($this->cycles as $zone=>$cycle){
+      $action = $cycle->status() == "on" ? "run" : "stop";
+      $this->controller->$action($zone);
+    }
+    return $this;
+  }
+
+  /**
+   * set supplied zone
+   *
+   * @param Zone $zone
+   * @return Nest $this
+   */
+  public function setZone(Zone $zone){
+  }
+
+  /**
+   * get zone object for the requested zone number.
+   *
+   * @param int $zone zone number 
+   * @return Zone 
+   */
+  public function getZone($zone){
+  }
+
+  /**
+   * set Cycle for provided Zone
+   * @param Zone $zone
+   * @param Cycle $cycle
+   * @return Nest $this
+   */
+  public function setCycle(Zone $zone, Cycle $cycle){
+    $this->cycles->set($zone, $cycle);
+    $this->cycles->save();
+    return $this;
+  }
+
+  /**
+   * get current cycle for this zone
+   * if zone is not provided return new empty cycle.
+   *
+   * @param int $zone zone number 
+   * @return Cycle
+   */
+  public function getCycle($zone){
+  }
+
+  /**
+   * get member objects
+   * @param string $what "controller", "zones", "cycles"
+   */
+  public function get($what){
+    switch( $what){
+    case "controller":
+      return $this->controller;
+      break;
+    case "zones":
+      return $this->zones;
+      break;
+    case "cycles":
+      return $this->cycles;
+      break;
+    default:
+      return false;
+    }}
 
   /**
    * make sure a cycle is set up for each zone
    * @return bool true if a new cycle was created
    */
   protected function cycle(Zone $zone){
-   $cycle = $this->cycles->get($zone); 
-      if(!$cycle){
-        $cycle = Process::cycle($zone);
-        $this->cycles->set($zone, Process::cycle($zone));
-        return true;
-      }
-      return false;
+    $cycle = $this->cycles->get($zone); 
+    if(!$cycle){
+      $cycle = Process::cycle($zone);
+      $this->cycles->set($zone, Process::cycle($zone));
+      return true;
+    }
+    return false;
   }
 
   /**

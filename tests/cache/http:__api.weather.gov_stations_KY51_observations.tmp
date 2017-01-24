@@ -1,0 +1,145 @@
+{
+    "@context": [
+        "https://raw.githubusercontent.com/geojson/geojson-ld/master/contexts/geojson-base.jsonld",
+        {
+            "wx": "https://api.weather.gov/ontology#",
+            "s": "https://schema.org/",
+            "geo": "http://www.opengis.net/ont/geosparql#",
+            "unit": "http://codes.wmo.int/common/unit/",
+            "@vocab": "https://api.weather.gov/ontology#",
+            "geometry": {
+                "@id": "s:GeoCoordinates",
+                "@type": "geo:wktLiteral"
+            },
+            "city": "s:addressLocality",
+            "state": "s:addressRegion",
+            "distance": {
+                "@id": "s:Distance",
+                "@type": "s:QuantitativeValue"
+            },
+            "bearing": {
+                "@type": "s:QuantitativeValue"
+            },
+            "value": {
+                "@id": "s:value"
+            },
+            "unitCode": {
+                "@id": "s:unitCode",
+                "@type": "@id"
+            },
+            "forecastOffice": {
+                "@type": "@id"
+            },
+            "forecastGridData": {
+                "@type": "@id"
+            },
+            "publicZone": {
+                "@type": "@id"
+            },
+            "county": {
+                "@type": "@id"
+            }
+        }
+    ],
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "id": "http://api.weather.gov/stations/KY51/observations/2017-01-12T17:55:00+00:00",
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -90.9000015259,
+                    43.5800018311
+                ]
+            },
+            "properties": {
+                "@id": "http://api.weather.gov/stations/KY51/observations/2017-01-12T17:55:00+00:00",
+                "@type": "wx:ObservationStation",
+                "elevation": {
+                    "value": 120.0912,
+                    "unitCode": "unit:m"
+                },
+                "station": "http://api.weather.gov/stations/KY51",
+                "timestamp": "2017-01-12T17:55:00+00:00",
+                "rawMessage": "KY51 121755Z AUTO 30011KT 10SM OVC065 M10/M15 A3016 RMK AO1 T11031148 11103 21129",
+                "textDescription": "Cloudy",
+                "icon": "https://api-v1.weather.gov/icons/land/day/ovc?size=medium",
+                "presentWeather": [],
+                "temperature": {
+                    "value": -10.2999938965,
+                    "unitCode": "unit:degC"
+                },
+                "dewpoint": {
+                    "value": -14.7999938965,
+                    "unitCode": "unit:degC"
+                },
+                "windDirection": {
+                    "value": 300,
+                    "unitCode": "unit:degree_(angle)"
+                },
+                "windSpeed": {
+                    "value": 5.6999998093,
+                    "unitCode": "unit:m_s-1"
+                },
+                "windGust": {
+                    "value": null,
+                    "unitCode": "unit:m_s-1"
+                },
+                "barometricPressure": {
+                    "value": 102130,
+                    "unitCode": "unit:Pa"
+                },
+                "seaLevelPressure": {
+                    "value": null,
+                    "unitCode": "unit:Pa"
+                },
+                "visibility": {
+                    "value": 16090,
+                    "unitCode": "unit:m"
+                },
+                "maxTemperatureLast24Hours": {
+                    "value": -10.2999938965,
+                    "unitCode": "unit:degC"
+                },
+                "minTemperatureLast24Hours": {
+                    "value": -12.9,
+                    "unitCode": "unit:degC"
+                },
+                "precipitationLastHour": {
+                    "value": null,
+                    "unitCode": "unit:m"
+                },
+                "precipitationLast3Hours": {
+                    "value": null,
+                    "unitCode": "unit:m"
+                },
+                "precipitationLast6Hours": {
+                    "value": null,
+                    "unitCode": "unit:m"
+                },
+                "relativeHumidity": {
+                    "value": 69.567365724812,
+                    "unitCode": "unit:percent"
+                },
+                "windChill": {
+                    "value": -18.317018369762,
+                    "unitCode": "unit:degC"
+                },
+                "heatIndex": {
+                    "value": null,
+                    "unitCode": "unit:degC"
+                },
+                "cloudLayers": [
+                    {
+                        "base": {
+                            "value": 1980,
+                            "unitCode": "unit:m"
+                        },
+                        "amount": "OVC"
+                    }
+                ]
+            }
+        }
+    ]
+}

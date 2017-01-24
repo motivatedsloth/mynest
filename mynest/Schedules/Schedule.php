@@ -21,7 +21,7 @@ use DateTime;
  */
 class Schedule {
   /**
-   * Terms that we accept and understand
+   * @var array $day_terms Terms that we accept and understand
    */
   protected $day_terms = array(
     "all",
@@ -78,6 +78,7 @@ class Schedule {
   
   /**
    * get valid day terms
+   * @return array of day terms 
    */
   public static function getTerms(){
     return self::$day_terms;

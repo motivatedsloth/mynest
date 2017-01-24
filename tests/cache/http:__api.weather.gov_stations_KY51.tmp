@@ -1,0 +1,67 @@
+{
+    "@context": [
+        "https://raw.githubusercontent.com/geojson/geojson-ld/master/contexts/geojson-base.jsonld",
+        {
+            "wx": "https://api.weather.gov/ontology#",
+            "s": "https://schema.org/",
+            "geo": "http://www.opengis.net/ont/geosparql#",
+            "unit": "http://codes.wmo.int/common/unit/",
+            "@vocab": "https://api.weather.gov/ontology#",
+            "geometry": {
+                "@id": "s:GeoCoordinates",
+                "@type": "geo:wktLiteral"
+            },
+            "city": "s:addressLocality",
+            "state": "s:addressRegion",
+            "distance": {
+                "@id": "s:Distance",
+                "@type": "s:QuantitativeValue"
+            },
+            "bearing": {
+                "@type": "s:QuantitativeValue"
+            },
+            "value": {
+                "@id": "s:value"
+            },
+            "unitCode": {
+                "@id": "s:unitCode",
+                "@type": "@id"
+            },
+            "forecastOffice": {
+                "@type": "@id"
+            },
+            "forecastGridData": {
+                "@type": "@id"
+            },
+            "publicZone": {
+                "@type": "@id"
+            },
+            "county": {
+                "@type": "@id"
+            }
+        }
+    ],
+    "id": "http://api.weather.gov/stations/KY51",
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -90.9131,
+            43.5794
+        ]
+    },
+    "properties": {
+        "@id": "http://api.weather.gov/stations/KY51",
+        "@type": "wx:ObservationStation",
+        "elevation": {
+            "value": 393.8016,
+            "unitCode": "unit:m"
+        },
+        "stationIdentifier": "KY51",
+        "name": "Viroqua Municipal Airport",
+        "timeZone": "America/Chicago",
+        "forecast": "http://api.weather.gov/zones/forecast/WIZ053",
+        "county": "http://api.weather.gov/zones/county/WIC123",
+        "fireWeatherZone": "http://api.weather.gov/zones/fire/WIZ053"
+    }
+}

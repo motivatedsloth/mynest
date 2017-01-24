@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the constellation/mynest package.
  *
@@ -9,7 +8,6 @@
  * file that was distributed with this source code.
  */
 namespace constellation\mynest\Heat\Controller;
-use constellation\mynest\Heat\Zone\Zone;
 /**
  * interface controller
  *
@@ -18,15 +16,25 @@ use constellation\mynest\Heat\Zone\Zone;
 interface Controller {
 
   /**
-   * system on
-   * @param Zone $zone
+   * turn this zone on
+   *
+   * @param int $zone
    */
-  public function run(Zone $zone);
+  public function run(int $zone);
 
   /**
-   * system off
-   * @param Zone $zone
+   * turn this zone off
+   * 
+   * @param int $zone
    */
-  public function stop(Zone $zone);
+  public function stop(int $zone);
+
+  /**
+   * get zone status
+   *
+   * @param int $zone
+   * @return int 0 or 1
+   */
+  public function status(int $zone);
 }
 

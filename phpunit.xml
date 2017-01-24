@@ -5,6 +5,7 @@
       <file>tests/ScheduleTest.php</file>
       <file>tests/WoodStoveTest.php</file>
       <file>tests/ZoneTest.php</file>
+      <file>tests/CacheTest.php</file>
       <file>tests/CycleTest.php</file>
       <file>tests/CyclesTest.php</file>
     </testsuite>

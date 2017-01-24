@@ -7,45 +7,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace constellation\mynest\Heat\Cycles;
+namespace constellation\mynest;
 use Symfony\Component\Yaml\Yaml;
-use constellation\mynest\Heat\Cycles\Cycles;
 
 /**
- * Cycle Storage
+ * Cache Storage
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class Storage {
+class Cache {
   /**
-   * our yaml file
-   * @var string filename
+   * our cache directory
+   * @var string $dir dirctory
    */
-  protected $file = "/tmp/mynest/cycles.yml";
-
-  /**
-   * our cycles object
-   * @var Cycles $cycles
-   */
-  protected $cycles;
+  protected $dir;
   
-  public function __construct($file = null){
-    if($file){
-      $this->file = $file;
+  public function __construct($dir = "cache"){
+    $this->dir = $dir;
+    //we are dealing with local dir
+    if(substr($this->dir, 0, 1) != "/"){
+      $this->dir = dirname(__DIR__) . "/" . $this->dir;
+
     }
-    $dir = dirname($this->file);
-    if(!file_exists($dir)){
-      mkdir($dir, null, true);
+    if(!file_exists($this->dir)){
+      mkdir($this->dir, null, true);
     }
   }
 
-  public function open(){
-    $this->cycles = new Cycles(Yaml::parse(file_get_contents($this->file)));
-    return $this->cycles;
+  public function open($key){
+    return Yaml::parse(file_get_contents($this->filename($key)));
   }
 
-  public function save(Cycles $cycles){
-    file_put_contents($this->file, Yaml::dump($cycles->toArray()));
+  public function save($key, $data){
+    if(!is_array($data)){
+      $vals = $data->toArray();
+    }else{
+      $vals = $data;
+    }
+    file_put_contents($this->filename($key), Yaml::dump($vals));
+  }
+
+  /**
+   * turn key to filename
+   */
+  protected function filename($key){
+    return $this->dir . "/" . $key . ".yml";
   }
 }
 

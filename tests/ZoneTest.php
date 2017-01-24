@@ -9,7 +9,7 @@
  */
 use PHPUnit\Framework\TestCase;
 use constellation\mynest\Config;
-use constellation\mynest\Heat\Zones\Zones;
+use constellation\mynest\Heat\Zones;
 
 /**
  * test class for Zone object
@@ -18,8 +18,13 @@ use constellation\mynest\Heat\Zones\Zones;
  */
 class ZoneTest extends TestCase {
   public function testZones(){
-    $config = new Config;
-    $zones = new Zones($config->get("zones"));
+    $zn = array(
+      array(
+        "zone"=>1,
+        "source"=>array("startup"=>30, "cycle"=>60, "rise"=>50),
+        "schedule"=>array("all"=>array("8"=>65, "22"=>60))
+      ));
+    $zones = new Zones($zn);
     $zone = $zones->get(1);
     $this->assertEquals(1, $zone->getZone());
     $this->assertEquals(60, $zone->val(new DateTime("2017-01-02T23:00")) );

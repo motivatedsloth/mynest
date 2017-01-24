@@ -7,15 +7,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace constellation\mynest\Heat\Zones;
+namespace constellation\mynest\Heat;
 use constellation\mynest\Heat\Zones\Zone;
+use ArrayObject;
+use ArrayIterator;
 
 /**
  * manage multiple zones
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class Zones implements Iterator{
+class Zones extends ArrayObject{
 
   /**
    * our zone objects
@@ -34,6 +36,7 @@ class Zones implements Iterator{
 
   /**
    * set a zone
+   *
    * @param Zone $zone
    * @return Zones
    */
@@ -43,15 +46,13 @@ class Zones implements Iterator{
   }
 
   /**
-   * get a Zone or array of Zone objects
-   * @param int $num optional zone number
-   * @return Zone|array of Zone objects
+   * get a Zone
+   *
+   * @param int $num zone number
+   * @return Zone
    * @throws Exception if zone does not exist
    */
-  public function get($num = null){
-    if(is_null($num)){
-      return $this->zones;
-    }
+  public function get(int $num){
     if(!isset($this->zones[$num])){
       throw new Exception("Zone number $num does not exist");
     }
@@ -70,20 +71,8 @@ class Zones implements Iterator{
     return $ret;
   }
 
-  function rewind() {
-    return reset($this->zones);
-  }
-  function current() {
-    return current($this->zones);
-  }
-  function key() {
-    return key($this->zones);
-  }
-  function next() {
-    return next($this->zones);
-  }
-  function valid() {
-    return key($this->zones) !== null;
+  public function getIterator(){
+    return new ArrayIterator($this->zones);
   }
 }
 

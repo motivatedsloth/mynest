@@ -1,0 +1,12 @@
+controller: constellation\mynest\Heat\Controller\Mock
+cache: tests/cache
+point:
+  lat: 43.43
+  lon: -90.80
+zones:
+  -
+    zone: 1
+    source: { startup: 1, cycle: 60, rise: 40, offset: 180 }
+    schedule: { all: { 8: 65, 22: 60 } }
+sources:
+  woodstove: {all: {8: 40, 22: 15}} 
