@@ -9,7 +9,6 @@
  */
 namespace constellation\mynest\Heat;
 use constellation\mynest\Cache;
-use constellation\mynest\Heat\Zones\Zone;
 use constellation\mynest\Heat\Cycles\Cycle;
 use ArrayObject;
 use ArrayIterator;
@@ -54,29 +53,28 @@ class Cycles extends ArrayObject{
 
   /**
    * set cycle for given zone
-   * @param Zone $zone
+   * @param int $zone
    * @param Cycle $cycle
    * @return Cycles
    */
-  public function set(Zone $zone, Cycle $cycle){
-    $this->cycles[$zone->getZone()] = $cycle;
+  public function set(int $zone, Cycle $cycle){
+    $this->cycles[$zone] = $cycle;
     $this->updated = true;
     return $this;
   }
 
   /**
    * get cycle for provided zone
-   * @param Zone $zone
+   * @param int $zone
    * @return Cycle|bool false is Cycle is done
    */
-  public function get(Zone $zone){
-    $num = $zone->getZone();
-    if(isset($this->cycles[$num])){
-      if($this->cycles[$num]->status() == "done"){
-        unset($this->cycles[$num]);
+  public function get(int $zone){
+    if(isset($this->cycles[$zone])){
+      if($this->cycles[$zone]->status() == "done"){
+        unset($this->cycles[$zone]);
         return false;
       }
-      return $this->cycles[$num];
+      return $this->cycles[$zone];
     }
     return false;
   }

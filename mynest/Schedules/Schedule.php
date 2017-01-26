@@ -134,8 +134,10 @@ class Schedule {
     $days = array_merge(array_splice($days, array_search($dow, $days)), $days);
     foreach($days as $dow){
       try{
+        if(isset($this->days[$dow])){
         $val = $this->days[$dow]->val($date);
         return $val;
+        }
       }catch(OutOfBoundsException $e){
       }
     }

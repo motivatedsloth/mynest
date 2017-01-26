@@ -44,7 +44,7 @@ class Day {
    * set continuous
    * @param bool $cont
    */
-  public function continuous($cont){
+  public function continuous(bool $cont){
     $this->continuous = $cont;
   }
 
@@ -160,6 +160,14 @@ class Day {
       $dt = false;
     }
     return $dt;
+  }
+
+  /**
+   * return array to reconstruct
+   * @return array
+   */
+  public function toArray(){
+    return $this->schedule;
   }
 }
 

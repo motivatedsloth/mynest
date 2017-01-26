@@ -36,6 +36,7 @@ class ScheduleTest extends TestCase{
     $this->assertEquals(100, $sched->val(new DateTime("2017-01-03 02:00")));
     $this->assertEquals(20, $sched->val(new DateTime("2017-01-03 08:00")));
     $this->assertEquals(40, $sched->val(new DateTime("2017-01-03 20:00")));
+    $this->assertEquals(40, $sched->val(new DateTime("2017-01-04 20:00")));
   }
 }
 

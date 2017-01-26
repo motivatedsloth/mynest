@@ -8,11 +8,9 @@
  * file that was distributed with this source code.
  */
 use PHPUnit\Framework\TestCase;
-use constellation\mynest\Config;
 use constellation\mynest\Cache;
 use constellation\mynest\Heat\Cycles;
 use constellation\mynest\Heat\Cycles\Cycle;
-use constellation\mynest\Heat\Zones\Zone;
 
 /**
  * test class for Cycles object
@@ -22,15 +20,6 @@ use constellation\mynest\Heat\Zones\Zone;
 class CyclesTest extends TestCase {
   public function testCycles(){
     @unlink('tests/cache/cycles.yml');
-    $zn = array(
-      "zone"=>1,
-      "source"=>array("startup"=>30, "cycle"=>60, "rise"=>50),
-      "schedule"=>array("all"=>array("8"=>65, "22"=>60))
-    );
-    $zone1 = new Zone($zn);
-    $zn['zone'] = 2;
-    $zone2 = new Zone($zn);
-
     $start = new \DateTime();
     $arr = array(
       "start"=>$start->format(\DateTime::ISO8601),
@@ -42,12 +31,12 @@ class CyclesTest extends TestCase {
     $cycle2 = new Cycle($arr);
 
     $cycles = new Cycles(new Cache('tests/cache'));
-    $cycles->set($zone1, $cycle1);
-    $cycles->set($zone2, $cycle2);
+    $cycles->set(1, $cycle1);
+    $cycles->set(2, $cycle2);
     $cycles->save();
 
-    $this->assertEquals($cycle1, $cycles->get($zone1));
-    $this->assertFalse($cycles->get($zone2));
+    $this->assertEquals($cycle1, $cycles->get(1));
+    $this->assertFalse($cycles->get(2));
     
     $exp = $cycles->toArray();
     $this->assertEquals($exp[1]['start'], $start->format(\DateTime::ISO8601));

@@ -12,6 +12,7 @@ use constellation\mynest\Config;
 use constellation\mynest\Cache;
 use constellation\mynest\Heat\Zones;
 use constellation\mynest\Heat\Zones\Zone;
+use constellation\mynest\Heat\Cycles;
 use constellation\mynest\Heat\Cycles\Cycle;
 use constellation\mynest\Heat\Zones\Process;
 use constellation\mynest\Heat\Controller;
@@ -93,6 +94,8 @@ class Nest {
    * @return Nest $this
    */
   public function setZone(Zone $zone){
+    $this->zones->set($zone);
+    return $this;
   }
 
   /**
@@ -101,16 +104,17 @@ class Nest {
    * @param int $zone zone number 
    * @return Zone 
    */
-  public function getZone($zone){
+  public function getZone(int $zone){
+    return $this->zones->get($zone);
   }
 
   /**
    * set Cycle for provided Zone
-   * @param Zone $zone
+   * @param int $zone
    * @param Cycle $cycle
    * @return Nest $this
    */
-  public function setCycle(Zone $zone, Cycle $cycle){
+  public function setCycle(int $zone, Cycle $cycle){
     $this->cycles->set($zone, $cycle);
     $this->cycles->save();
     return $this;
@@ -118,12 +122,13 @@ class Nest {
 
   /**
    * get current cycle for this zone
-   * if zone is not provided return new empty cycle.
    *
    * @param int $zone zone number 
    * @return Cycle
    */
-  public function getCycle($zone){
+  public function getCycle(int $zone){
+    $this->cycles($this->zones->get($zone));
+    return $this->cycles->get($zone);
   }
 
   /**
@@ -146,14 +151,13 @@ class Nest {
     }}
 
   /**
-   * make sure a cycle is set up for each zone
+   * make sure a cycle is set up for zone
+   * @param Zone $zone
    * @return bool true if a new cycle was created
    */
   protected function cycle(Zone $zone){
-    $cycle = $this->cycles->get($zone); 
-    if(!$cycle){
-      $cycle = Process::cycle($zone);
-      $this->cycles->set($zone, Process::cycle($zone));
+    if(!$this->cycles->get($zone)){
+      $this->cycles->set($zone->getZone(), Process::cycle($zone));
       return true;
     }
     return false;
