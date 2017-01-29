@@ -13,7 +13,8 @@
         "motivatedsloth/noaa": "dev-master",
         "symfony/yaml": "^3.2",
         "php": ">=7.0.0",
-        "calcinai/phpi": "0.2.*"
+        "calcinai/phpi": "0.2.*",
+        "monolog/monolog": "^1.22"
     },
     "autoload": {
         "psr-4": {"constellation\\mynest\\": "mynest/"}

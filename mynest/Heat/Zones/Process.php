@@ -11,7 +11,7 @@ namespace constellation\mynest\Heat\Zones;
 use constellation\mynest\Config;
 use constellation\mynest\Weather\Weather;
 use constellation\mynest\Heat\Zones\Zone;
-use constellation\mynest\Heat\Source\Sources;
+use constellation\mynest\Heat\Sources;
 use constellation\mynest\Heat\Cycles\Cycle;
 use DateTime;
 use DateInterval;

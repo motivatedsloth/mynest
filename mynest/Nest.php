@@ -25,12 +25,6 @@ use constellation\mynest\Heat\Controller;
 class Nest {
 
   /**
-   * current configuration
-   * @var Config $config
-   */
-  protected $config;
-
-  /**
    * our zones
    * @var Zones $zones
    */
@@ -49,16 +43,13 @@ class Nest {
   protected $controller;
 
   /**
-   * @param Config $config optional configuration
+   * @param string $config optional configuration file
    */
-  public function __construct(Config $config = null){
-    if(is_null($config)){
-      $config = new Config;
-    }
-    $this->config = $config;
-    $this->controller(new Controller($config->get("controller")));
-    $this->zones = new Zones($config->get("zones"));
-    $this->cycles = new Cycles(new Cache($config->get("cache")));
+  public function __construct($config = null){
+    Config::load($config);
+    $this->controller(new Controller(Config::get("controller")));
+    $this->zones = new Zones(Config::get("zones"));
+    $this->cycles = new Cycles(new Cache(Config::get("cache")));
   }
 
   /**
@@ -127,7 +118,7 @@ class Nest {
    * @return Cycle
    */
   public function getCycle(int $zone){
-    $this->cycles($this->zones->get($zone));
+    $this->cycle($this->zones->get($zone));
     return $this->cycles->get($zone);
   }
 
@@ -156,7 +147,7 @@ class Nest {
    * @return bool true if a new cycle was created
    */
   protected function cycle(Zone $zone){
-    if(!$this->cycles->get($zone)){
+    if(!$this->cycles->get($zone->getZone())){
       $this->cycles->set($zone->getZone(), Process::cycle($zone));
       return true;
     }

@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 namespace constellation\mynest\Heat;
+use constellation\mynest\Heat\Source\HeatSource;
 use ArrayObject;
 use ArrayIterator;
 

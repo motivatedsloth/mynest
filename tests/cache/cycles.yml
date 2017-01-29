@@ -1,8 +1,8 @@
 1:
-    start: '2017-01-25T19:18:32-0600'
-    duration: PT30M
-    length: PT60M
+    start: '2017-01-29T16:50:38+0000'
+    duration: PT4M
+    length: PT10M
 2:
-    start: '2017-01-01T10:00:00-0600'
+    start: '2017-01-01T10:00:00+0000'
     duration: PT30M
     length: PT60M

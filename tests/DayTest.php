@@ -25,7 +25,7 @@ class DayTest extends TestCase{
   public function testDayNightException(){
     $day = new Day;
     $day->set("day", 100);
-    $this->expectException(RuntimeException);
+    $this->expectException('RuntimeException');
     $day->val(new DateTime("1821"));
   }
   public function testTimes(){
@@ -39,7 +39,7 @@ class DayTest extends TestCase{
     $day = new Day;
     $day->set(8, 100);
     $day->set("1830", 20);
-    $this->expectException(OutOfBoundsException);
+    $this->expectException('OutOfBoundsException');
     $day->val(new Datetime("0600"));
   }
 }
