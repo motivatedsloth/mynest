@@ -9,7 +9,10 @@
  * file that was distributed with this source code.
  */
 namespace constellation\mynest\Heat\Controller;
-use constellation\mynest\Heat\Controller\Pi\Gpio;
+use Calcinai\PHPi\Factory;
+use Calcinai\PHPi\Pin;
+use Calcinai\PHPi\Board;
+use Calcinai\PHPi\Pin\PinFunction;
 
 /**
  * class to work with a pi controller
@@ -25,26 +28,44 @@ class Pi implements Controller {
   protected $mapping = array(1=>17, 2=>27, 3=>22);
 
   /**
-   * @var Gpio 
+   * @var array of pins
    */
-  protected $gpio;
+  protected $pins = array();
 
   /**
-   * @param Gpio $gpio
+   * @var Board $board;
+   */
+  protected $board;
+
+  /**
+   *
    */
   public function __construct(){
-    $this->gpio = new Gpio;
+    $this->board = Factory::Create();
   }
+
   /**
-   * make sure zone is exported
-   * @param int $pin
-   * @return Gpio 
+   * get pin for zone
+   * @param int $zone
+   * @return Pin 
    */
-  protected function init($pin){
-    if(!$this->gpio->isExported($pin)){
-      $this->gpio->setup($pin, "out");
+  protected function pin(int $zone){
+    if(!$this->validZone($zone)){
+      throw new RuntimeException("Zone number $zone is not a valid zone");
+    }elseif(!isset($pins[$zone])){
+      $pins[$zone] = $this->board->getPin($this->mapping[$zone]);
+      $pins[$zone]->setFunction(PinFunction::OUTPUT);
     }
-    return $this->gpio;
+    return $pins[$zone];
+  }
+
+  /**
+   * check zone
+   * @param int $zone
+   * @return bool
+   */
+  protected function validZone($zone){
+    return isset($this->mapping[$zone]);
   }
 
   /**
@@ -52,8 +73,7 @@ class Pi implements Controller {
    * @return Pi $this
    */
   public function stop(int $zone){
-    $pin = $this->mapping[$zone];
-    $this->init($pin)->output($pin, 0);
+    $this->pin($zone)->low();
     return $this;
   }
 
@@ -62,8 +82,7 @@ class Pi implements Controller {
    * @return Pi $this
    */
   public function run(int $zone){
-    $pin = $this->mapping[$zone];
-   $this->init($pin)->output($pin, 1);
+    $this->pin($zone)->high();
     return $this;
   }
 
@@ -73,8 +92,7 @@ class Pi implements Controller {
    * @return int 0 or 1
    */
   public function status(int $zone){
-    $pin = $this->mapping[$zone];
-    return $this->init($pin)->status($pin);
+    return $this->pin($zone)->getLevel();
   }
 }
 
