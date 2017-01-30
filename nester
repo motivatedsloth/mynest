@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+include "vendor/autoload.php";
+use constellation\mynest\Nest;
+
+$nest = new Nest;
+$nest->run();
+exit(0);

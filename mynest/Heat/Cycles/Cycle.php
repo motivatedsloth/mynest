@@ -69,7 +69,7 @@ class Cycle {
   protected function timesUp(DateInterval $interval){
     $now = new DateTime();
     $now->sub($interval);
-    return $now > $this->start;
+    return $now >= $this->start;
   }
 
   /**

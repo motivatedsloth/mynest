@@ -50,6 +50,9 @@ class Process {
    */
   static protected function runtime(Zone $zone){
     $remaining = self::load($zone) - self::sources($zone);
+    if($remaining <= 0){
+      return 0;
+    }
     $controllable = $zone->getHeatSource();
     $percent = $remaining / $controllable->getRise();
     return ceil($percent * $controllable->getCycle()) + $controllable->getStartUp();

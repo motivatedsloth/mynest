@@ -148,7 +148,7 @@ class Nest {
    */
   protected function cycle(Zone $zone){
     if(!$this->cycles->get($zone->getZone())){
-      $this->cycles->set($zone->getZone(), Process::cycle($zone));
+      $this->setCycle($zone->getZone(), Process::cycle($zone));
       return true;
     }
     return false;
