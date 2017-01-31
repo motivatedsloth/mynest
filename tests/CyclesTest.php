@@ -24,7 +24,9 @@ class CyclesTest extends TestCase {
     $arr = array(
       "start"=>$start->format(\DateTime::ISO8601),
       "length"=>"PT60M",
-      "duration"=>"PT30M"
+      "duration"=>"PT30M",
+      "source"=>"test",
+      "params"=>array("param1"=>1)
     );
     $cycle1 = new Cycle($arr);
     $arr['start'] = "2017-01-01T10:00";

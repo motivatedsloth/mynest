@@ -35,9 +35,10 @@ class Process {
    */
   static public function cycle(Zone $zone){
     $cycle = new Cycle;
+    $cycle->source("process");
     $controllable = $zone->getHeatSource();
     $cycle->length(new DateInterval("PT{$controllable->getCycle()}M"));
-    $run = self::runtime($zone);
+    $run = self::runtime($zone, $cycle);
     $cycle->duration(new DateInterval("PT{$run}M"));
     return $cycle;
   }
@@ -46,10 +47,12 @@ class Process {
   /**
    * calculate runtime
    * @param Zone $zone
+   * @param Cycle $cycle
    * @return int runtime in minutes
    */
-  static protected function runtime(Zone $zone){
-    $remaining = self::load($zone) - self::sources($zone);
+  static protected function runtime(Zone $zone, Cycle $cycle){
+    $remaining = self::load($zone, $cycle) - self::sources($zone, $cycle);
+    $cycle->params("remaining", $remaining);
     if($remaining <= 0){
       return 0;
     }
@@ -62,12 +65,15 @@ class Process {
    * temp difference from inside to outside
    * total heat load
    * @param Zone $zone
+   * @param Cycle $cycle
    * @return float temp in degrees F
    */
-  static protected function load(Zone $zone){
+  static protected function load(Zone $zone, Cycle $cycle){
     $time = self::when($zone);
     $inside = $zone->val($time);
+    $cycle->params("inside", $inside);
     $outside = self::outside($time);
+    $cycle->params("outside", $outside);
     return $inside - $outside;
   }
 
@@ -94,6 +100,7 @@ class Process {
   /**
    * get rise from static sources
    * @param Zone $zone
+   * @param Cycle $cycle
    * @return float rise in degrees F
    */
   static protected function sources(Zone $zone){
@@ -103,6 +110,7 @@ class Process {
     foreach($sources->get() as $source){
       $rise += $source->rise($date);
     }
+    $cycle->params("other_sources", $rise);
     return $rise;
   }
 }

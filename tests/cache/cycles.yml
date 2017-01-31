@@ -1,8 +1,12 @@
 1:
-    start: '2017-01-29T16:50:38+0000'
-    duration: PT4M
-    length: PT10M
-2:
-    start: '2017-01-01T10:00:00+0000'
+    start: '2017-01-31T07:49:53-0600'
     duration: PT30M
     length: PT60M
+    source: test
+    params: { param1: 1 }
+2:
+    start: '2017-01-01T10:00:00-0600'
+    duration: PT30M
+    length: PT60M
+    source: test
+    params: { param1: 1 }

@@ -37,6 +37,17 @@ class Cycle {
   protected $length;
 
   /**
+   * what created this cycle
+   * @var string "process", "manual"
+   */
+  protected $source;
+
+  /**
+   * additional parameters
+   * @var array
+   */
+  protected $params = array();
+  /**
    * @param array optional array to set up cycle
    */
   public function __construct(array $cyc = null){
@@ -44,6 +55,8 @@ class Cycle {
       $this->start(new DateTime($cyc['start']));
       $this->duration(new DateInterval($cyc['duration']));
       $this->length(new DateInterval($cyc['length']));
+      $this->source = $cyc['source'];
+      $this->params = $cyc['params'];
     }else{
       $this->start = new DateTime();
     }
@@ -117,6 +130,38 @@ class Cycle {
     }
   }
 
+
+  /**
+   * set/get cycle source
+   * @param string $source "process", "manual"
+   * @return string|Cycle
+   */
+  public function source($source = ""){
+    if($source){
+      $this->source = (string) $source;
+      return $this;
+    }else{
+      return $this->source;
+    }
+  }
+
+  /**
+   * get/set parameters
+   * calling without any arguments returns params array
+   *
+   * @param string $name optional
+   * @param mixed $value optional
+   * @return array|Cycle
+   */
+  public function params($name = null, $value = null){
+    if($name){
+      $this->params[$name] = $value;
+      return $this;
+    }else{
+      return $this->params;
+    }
+  }
+
   /**
    * an array to save
    * @return array
@@ -125,7 +170,9 @@ class Cycle {
     $ret = array(
       "start"=>$this->start->format(DateTime::ISO8601),
       "duration"=>$this->duration->format("PT%iM"),
-      "length"=>$this->length->format("PT%iM")
+      "length"=>$this->length->format("PT%iM"),
+      "source"=>$this->source,
+      "params"=>$this->params
     );
     return $ret;
   }

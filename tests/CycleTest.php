@@ -20,13 +20,17 @@ class CycleTest extends TestCase {
     $arr = array(
       "start"=>"2017-01-11T11:00:00-0600",
       "length"=>"PT60M",
-      "duration"=>"PT30M"
+      "duration"=>"PT30M",
+      "source"=>"test",
+      "params"=>array("param1"=>1)
     );
     $cyc = new Cycle($arr);
     $ret = $cyc->toArray();
     $this->assertEquals($ret['start'], $arr['start']);
     $this->assertEquals($ret['duration'], $arr['duration']);
     $this->assertEquals($ret['length'], $arr['length']);
+    $this->assertEquals($ret['source'], "test");
+    $this->assertEquals($ret['params']['param1'], 1);
     return $cyc;
   }
   public function testStatus(){

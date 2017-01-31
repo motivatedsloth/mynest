@@ -66,7 +66,7 @@ class Cycles extends ArrayObject{
   /**
    * get cycle for provided zone
    * @param int $zone
-   * @return Cycle|bool false is Cycle is done
+   * @return Cycle|bool false if Cycle is done
    */
   public function get(int $zone){
     if(isset($this->cycles[$zone])){
