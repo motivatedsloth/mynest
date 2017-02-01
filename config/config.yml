@@ -6,7 +6,7 @@ point:
 zones:
   -
     zone: 1
-    source: { startup: 1, cycle: 60, rise: 40, offset: 180 }
+    source: { startup: 1, cycle: 60, rise: 50, offset: 180 }
     schedule: { all: { 8: 65, 22: 60 } }
 sources:
-  woodstove: {all: {8: 30, 22: 15}} 
+  woodstove: {all: {8: 30, 22: 25, 0: 20, 2: 15}} 

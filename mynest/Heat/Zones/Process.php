@@ -103,7 +103,7 @@ class Process {
    * @param Cycle $cycle
    * @return float rise in degrees F
    */
-  static protected function sources(Zone $zone){
+  static protected function sources(Zone $zone, Cycle $cycle){
     $date = self::when($zone);
     $sources = new Sources(Config::get('sources'));
     $rise = 0;
