@@ -12,6 +12,7 @@ use DateTime;
 use Exception;
 use OutOfBoundsException;
 use RuntimeException;
+use InvalidArgumentException;
 /**
  * The schedule for a day
  *
@@ -144,9 +145,9 @@ class Day {
    */
   public function validTerm($term){
     switch (true){
-    case (array_search($term, $this->hour_terms) !== false): //string term
+    case (in_array($term, $this->hour_terms, true) !== false): //string term
       return $term;
-    case (array_search($term, range(1,24)) !== false): //hour only
+    case (array_search($term, range(0,23), true) !== false): //hour only
       $term = str_pad($term, 2, "0", STR_PAD_LEFT). "00";
     case (preg_match("/\d{3,4}/", $term)):
       $term = str_pad($term, 4, "0", STR_PAD_LEFT);
