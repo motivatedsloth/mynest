@@ -17,7 +17,7 @@ use DateTime;
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class HeatSource{
+abstract class HeatSource{
   /**
    * schedule for this source
    * @var mixed 

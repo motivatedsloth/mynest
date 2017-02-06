@@ -9,4 +9,5 @@ zones:
     source: { startup: 1, cycle: 60, rise: 60, offset: 180 }
     schedule: { all: { 8: 65, 22: 60 } }
 sources:
-  woodstove: {all: {8: 30, 22: 25, 0: 20, 2: 15}} 
+  woodstove: {all: {8: 35, 22: 25, 0: 20, 2: 15}} 
+  sun: {all: {10: 10, 14: 0}}

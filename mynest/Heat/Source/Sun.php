@@ -10,14 +10,27 @@
  */
 namespace constellation\mynest\Heat\Source;
 use constellation\mynest\Heat\Source\HeatSource;
-
+use constellation\mynest\Weather\Weather;
+use DateTime;
 
 /**
- * class describing a wood stove
+ * class describing Sun
  *
  * @author Alan Buss <al@constellationwebservices.com>
  */
-class WoodStove extends HeatSource {
-  protected $away = false;
+class Sun extends HeatSource {
+  public function rise(DateTime $time){
+    switch(Weather::weather($time)->getShortForecast()){
+    case "Mostly Sunny":
+      $mult = 1;
+      break;
+    case "Partly Sunny":
+      $mult = 0.5;
+      break;
+    default:
+      $mult = 0;
+    }
+    return parent::rise($time) * $mult;
+  }
 }
 

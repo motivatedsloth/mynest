@@ -31,6 +31,7 @@ class Sources extends ArrayObject{
    */
   protected $heatSources = array(
     "woodstove"=>"constellation\mynest\Heat\Source\WoodStove",
+    "sun"=>"constellation\mynest\Heat\Source\Sun",
   );
 
   /**
