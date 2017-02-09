@@ -22,6 +22,7 @@ class Sun extends HeatSource {
   public function rise(DateTime $time){
     switch(Weather::weather($time)->getShortForecast()){
     case "Mostly Sunny":
+    case "Sunny":
       $mult = 1;
       break;
     case "Partly Sunny":

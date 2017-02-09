@@ -65,7 +65,7 @@ class Weather {
     }else{
       $forecasts = self::noaa()->getHourlyForecast();
       foreach($forecasts as $forecast){
-        if($forecast->getStart() < $date && $forecast->getEnd() > $date){
+        if($forecast->getStart() <= $date && $forecast->getEnd() > $date){
           return $forecast;
         }
       }
