@@ -142,6 +142,7 @@ class Day {
   /**
    * is this a valid term
    * @param string|int $term
+   * @return mixed false if not valid term
    */
   public function validTerm($term){
     switch (true){
@@ -149,14 +150,13 @@ class Day {
       return $term;
     case (array_search($term, range(0,23), true) !== false): //hour only
       $term = str_pad($term, 2, "0", STR_PAD_LEFT). "00";
-    case (preg_match("/\d{3,4}/", $term)):
+    case (preg_match("/\d{3,4}/", $term) && $term <= 2400):
       $term = str_pad($term, 4, "0", STR_PAD_LEFT);
+    default:
+      $term = false;
     }
     try{
       $dt = new DateTime($term);
-      if($dt->format("Hi") != $term){
-        $dt = false;
-      }
     }catch(Exception $e){
       $dt = false;
     }
