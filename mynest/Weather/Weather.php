@@ -36,7 +36,7 @@ class Weather {
    */
   static protected function noaa(){
     if(!isset(self::$noaa)){
-      self::$noaa = new NOAA(self::cache());
+      self::$noaa = new NOAA(self::cache(), Config::get("noaa_apikey"));
       $point = Config::get("point");
       self::$noaa->setPoint(new Point($point['lat'], $point['lon']));
     }
