@@ -150,10 +150,12 @@ class Day {
       return $term;
     case (array_search($term, range(0,23), true) !== false): //hour only
       $term = str_pad($term, 2, "0", STR_PAD_LEFT). "00";
+      break;
     case (preg_match("/\d{3,4}/", $term) && $term <= 2400):
       $term = str_pad($term, 4, "0", STR_PAD_LEFT);
+      break;
     default:
-      $term = false;
+      return false;
     }
     try{
       $dt = new DateTime($term);
