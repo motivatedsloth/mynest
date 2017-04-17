@@ -189,12 +189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/motivatedsloth/noaa.git",
-                "reference": "616249422f181f18999a52013e6360f4b250d45e"
+                "reference": "621c8dab1d774ec2810a508941f568b716ce779a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/motivatedsloth/noaa/zipball/616249422f181f18999a52013e6360f4b250d45e",
-                "reference": "616249422f181f18999a52013e6360f4b250d45e",
+                "url": "https://api.github.com/repos/motivatedsloth/noaa/zipball/621c8dab1d774ec2810a508941f568b716ce779a",
+                "reference": "621c8dab1d774ec2810a508941f568b716ce779a",
                 "shasum": ""
             },
             "require": {
@@ -224,7 +224,7 @@
                 "noaa",
                 "weather"
             ],
-            "time": "2017-03-12 16:35:36"
+            "time": "2017-04-11 13:33:12"
         },
         {
             "name": "psr/log",
