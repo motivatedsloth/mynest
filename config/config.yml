@@ -3,6 +3,7 @@ cache: cache
 point:
   lat: 43.43
   lon: -90.80
+noaa_apikey: "my_pi_controller al@constellationwebservices.com"
 zones:
   -
     zone: 1
