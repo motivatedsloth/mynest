@@ -5,10 +5,10 @@ Installation
 Usage
 -----
 The most basic usage
+
     <?php
     include "vendor/autoload.php";
     use constellation\mynest\Nest;
-
     $nest = new Nest;
     $nest->run();
 
